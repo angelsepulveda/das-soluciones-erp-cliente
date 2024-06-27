@@ -36,10 +36,10 @@ export const Sidebar = ({ isSidebarVisible }: TSidebarProps) => {
   }
   return (
     <Card
-      className={`duration-400 p-4 shadow-xl shadow-blue-gray-900/5 transition-all xl:h-[calc(100vh-2rem)] xl:w-[240px] xl:max-w-[20rem] ${isSidebarVisible ? 'block' : 'hidden'}`}
+      className={`duration-400 h-full w-[300px] p-4 shadow-xl shadow-blue-gray-900/5 transition-all ${isSidebarVisible ? 'block' : 'hidden'}`}
     >
       <div className="mb-2 flex items-center gap-4 p-4">
-        <img src="/static/Logo.png" alt="brand" className="h-12 w-20" />
+        <img src="/static/Logo.png" alt="brand" className="h-12 w-full" />
       </div>
       <List>
         <Accordion

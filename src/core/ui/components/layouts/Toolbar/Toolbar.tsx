@@ -12,7 +12,7 @@ type TToolbarProps = {
 // profile menu component
 export function Toolbar({ isSidebarVisible, toggleSidebar }: TToolbarProps) {
   return (
-    <Navbar className="w-full rounded-full p-2 pl-6" fullWidth>
+    <Navbar className="w-full rounded-xl p-2 pl-6" fullWidth>
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
         <IconButton variant="text" size="lg" onClick={toggleSidebar}>
           {isSidebarVisible ? (
