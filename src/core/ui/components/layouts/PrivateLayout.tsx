@@ -39,7 +39,7 @@ export const PrivateLayout = ({ children }: TPrivateLayoutProps) => {
       <Sidebar isSidebarVisible={isSidebarVisible} />
       <div className="flex h-full w-full flex-col p-4 transition-all duration-300">
         <Toolbar isSidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
-        {children}
+        <div className="mt-5 flex w-full">{children}</div>
       </div>
     </div>
   )

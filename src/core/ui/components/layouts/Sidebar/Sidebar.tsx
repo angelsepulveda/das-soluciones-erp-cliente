@@ -1,34 +1,26 @@
 'use client'
 
-import {
-  ChevronDownIcon,
-  ChevronRightIcon,
-  Cog6ToothIcon,
-  InboxIcon,
-  PowerIcon,
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
-  UserCircleIcon,
-} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 import {
   Accordion,
   AccordionBody,
   AccordionHeader,
   Card,
-  Chip,
   List,
   ListItem,
   ListItemPrefix,
-  ListItemSuffix,
   Typography,
 } from '@material-tailwind/react'
 import { useState } from 'react'
+import { itemsSidebar } from '@/core/ui/components/layouts/Sidebar/utils'
+import { useRouter } from 'next/navigation'
 
 type TSidebarProps = {
   isSidebarVisible: boolean
 }
 
 export const Sidebar = ({ isSidebarVisible }: TSidebarProps) => {
+  const router = useRouter()
   const [open, setOpen] = useState<number>(0)
 
   const handleOpen = (value: number) => {
@@ -36,117 +28,59 @@ export const Sidebar = ({ isSidebarVisible }: TSidebarProps) => {
   }
   return (
     <Card
-      className={`duration-400 h-full w-[300px] p-4 shadow-xl shadow-blue-gray-900/5 transition-all ${isSidebarVisible ? 'block' : 'hidden'}`}
+      className={`duration-400 h-full w-[300px] rounded-none bg-[#29363E] p-4 text-white shadow-xl shadow-blue-gray-900/5 transition-all ${isSidebarVisible ? 'block' : 'hidden'}`}
     >
       <div className="mb-2 flex items-center gap-4 p-4">
-        <img src="/static/Logo.png" alt="brand" className="h-12 w-full" />
+        <img src="/static/LogoBlanco.png" alt="brand" className="h-12 w-full" />
       </div>
       <List>
-        <Accordion
-          open={open === 1}
-          icon={
-            <ChevronDownIcon
-              strokeWidth={2.5}
-              className={`mx-auto h-4 w-4 transition-transform ${open === 1 ? 'rotate-180' : ''}`}
-            />
-          }
-        >
-          <ListItem className="p-0" selected={open === 1}>
-            <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
-              <ListItemPrefix>
-                <PresentationChartBarIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              <Typography color="blue-gray" className="mr-auto font-normal">
-                Dashboard
-              </Typography>
-            </AccordionHeader>
-          </ListItem>
-          <AccordionBody className="py-1">
-            <List className="p-0">
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Analytics
+        {itemsSidebar.map((item) => {
+          return (
+            <Accordion
+              key={item.id}
+              open={open === item.id}
+              icon={
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`mx-auto h-4 w-4 text-white transition-transform ${open === item.id ? 'rotate-180' : ''}`}
+                />
+              }
+            >
+              <ListItem
+                className="p-0 text-white hover:rounded-xl hover:bg-[#37474F] hover:text-white focus:bg-[37474F] active:bg-[37474F]"
+                selected={open === item.id}
+              >
+                <AccordionHeader
+                  onClick={() => handleOpen(item.id)}
+                  className="border-b-0 p-3 text-white hover:rounded-xl hover:border-none hover:bg-[#37474F] hover:text-white focus:bg-[#37474F] focus:text-white active:bg-[37474F]"
+                >
+                  <ListItemPrefix>{item.icon}</ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal text-white">
+                    {item.title}
+                  </Typography>
+                </AccordionHeader>
               </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Reporting
-              </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Projects
-              </ListItem>
-            </List>
-          </AccordionBody>
-        </Accordion>
-        <Accordion
-          open={open === 2}
-          icon={
-            <ChevronDownIcon
-              strokeWidth={2.5}
-              className={`mx-auto h-4 w-4 transition-transform ${open === 2 ? 'rotate-180' : ''}`}
-            />
-          }
-        >
-          <ListItem className="p-0" selected={open === 2}>
-            <AccordionHeader onClick={() => handleOpen(2)} className="border-b-0 p-3">
-              <ListItemPrefix>
-                <ShoppingBagIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              <Typography color="blue-gray" className="mr-auto font-normal">
-                E-Commerce
-              </Typography>
-            </AccordionHeader>
-          </ListItem>
-          <AccordionBody className="py-1">
-            <List className="p-0">
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Orders
-              </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Products
-              </ListItem>
-            </List>
-          </AccordionBody>
-        </Accordion>
-        <ListItem>
-          <ListItemPrefix>
-            <InboxIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Inbox
-          <ListItemSuffix>
-            <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-          </ListItemSuffix>
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Profile
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <Cog6ToothIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Settings
-        </ListItem>
-        <ListItem>
-          <ListItemPrefix>
-            <PowerIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          Log Out
-        </ListItem>
+              <AccordionBody className="py-1 text-white">
+                <List className="p-0 text-white">
+                  {item.items.map((subItem) => {
+                    return (
+                      <ListItem
+                        key={subItem.label}
+                        onClick={() => router.push(subItem.path)}
+                        className="hover:bg-[#37474F] hover:text-white focus:bg-[#37474F] focus:text-white active:bg-[37474F]"
+                      >
+                        <ListItemPrefix>
+                          <ChevronRightIcon strokeWidth={3} className="h-3 w-5 text-white" />
+                        </ListItemPrefix>
+                        {subItem.label}
+                      </ListItem>
+                    )
+                  })}
+                </List>
+              </AccordionBody>
+            </Accordion>
+          )
+        })}
       </List>
     </Card>
   )
