@@ -1,27 +1,31 @@
-import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
-import { getVallidationError } from '@/core/infrastructure/utils'
+import axios from 'axios'
 
-const baseURL = 'YOUR_BASE_URL'
+const axiosInterceptorInstance = axios.create({
+  baseURL: 'http://localhost:5000/api/', // Replace with your API base URL
+})
 
-export const AxiosInterceptor = () => {
-  const updateHeader = (request: InternalAxiosRequestConfig) => {
-    request.headers['Content-Type'] = 'application/json'
+// Request interceptor
+axiosInterceptorInstance.interceptors.request.use(
+  (config) => {
+    config.headers['Content-Type'] = 'application/json'
+    return config
+  },
+  (error) => {
+    // Handle request errors here
+    return Promise.reject(error)
+  },
+)
 
-    return request
-  }
+// Response interceptor
+axiosInterceptorInstance.interceptors.response.use(
+  (response) => {
+    // Modify the response data here
+    return response
+  },
+  (error) => {
+    // Handle response errors here
+    return Promise.reject(error)
+  },
+)
 
-  axios.interceptors.request.use((request: InternalAxiosRequestConfig) => {
-    request.baseURL = `${baseURL}${request.url}`
-    return updateHeader(request)
-  })
-
-  axios.interceptors.response.use(
-    (response) => {
-      return response
-    },
-    (error) => {
-      console.log('error', getVallidationError(error.code))
-      console.log(error)
-    },
-  )
-}
+export default axiosInterceptorInstance

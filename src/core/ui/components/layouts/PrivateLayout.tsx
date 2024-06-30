@@ -4,9 +4,12 @@ import { ReactNode, useEffect, useState } from 'react'
 import { Toolbar } from '@/core/ui/components/layouts/Toolbar'
 import { Sidebar } from '@/core/ui/components/layouts/Sidebar'
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 type TPrivateLayoutProps = {
   children: ReactNode
 }
+const queryClient = new QueryClient()
 
 export const PrivateLayout = ({ children }: TPrivateLayoutProps) => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(true)
@@ -35,12 +38,14 @@ export const PrivateLayout = ({ children }: TPrivateLayoutProps) => {
   }, [])
 
   return (
-    <div className="flex h-screen w-full bg-gray-100">
-      <Sidebar isSidebarVisible={isSidebarVisible} />
-      <div className="flex h-full w-full flex-col p-4 transition-all duration-300">
-        <Toolbar isSidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
-        <div className="mt-5 flex w-full">{children}</div>
+    <QueryClientProvider client={queryClient}>
+      <div className="flex h-screen w-full bg-gray-100">
+        <Sidebar isSidebarVisible={isSidebarVisible} />
+        <div className="flex h-full w-full flex-col p-4 transition-all duration-300">
+          <Toolbar isSidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} />
+          <div className="mt-5 flex w-full">{children}</div>
+        </div>
       </div>
-    </div>
+    </QueryClientProvider>
   )
 }
